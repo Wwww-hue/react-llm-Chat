@@ -3,23 +3,46 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "postinstall": "prisma generate",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@azure/identity": "^4.13.1",
+    "@azure/openai": "^2.0.0",
+    "@prisma/adapter-better-sqlite3": "^7.6.0",
+    "@prisma/client": "^7.6.0",
     "@types/node": "25.5.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "autoprefixer": "10.4.27",
+    "autoprefixer": "^10.4.27",
+    "better-sqlite3": "^12.8.0",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.1",
+    "https-proxy-agent": "^8.0.0",
+    "jszip": "^3.10.1",
     "next": "16.2.1",
-    "postcss": "8.5.8",
+    "openai": "^6.33.0",
+    "pdfjs-dist": "^5.5.207",
+    "postcss": "^8.5.8",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "tailwindcss": "4.2.2",
-    "typescript": "5.9.3"
+    "react-icons": "^5.6.0",
+    "react-markdown": "^10.1.0",
+    "react-syntax-highlighter": "^16.1.1",
+    "react-textarea-autosize": "^8.5.9",
+    "remark-gfm": "^4.0.1",
+    "tailwindcss": "^3.4.19",
+    "typescript": "5.9.3",
+    "undici": "^7.24.6",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/uuid": "^10.0.0",
+    "prisma": "^7.6.0"
   }
 }
