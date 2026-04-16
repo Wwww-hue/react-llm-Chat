@@ -26,9 +26,17 @@ export default function AppContextProvider({
   children: React.ReactNode;
 }) {
   const [state, dispatch] = useReducer(reducer, initialState, () => {
-    const savedTheme = localStorage.getItem("themeNode");
-    const savedDisplayNavigation = localStorage.getItem("displayNavigation");
-    const savedCurrentModel = localStorage.getItem("currentModel");
+    let savedTheme = null;
+    let savedDisplayNavigation = null;
+    let savedCurrentModel = null;
+
+    // 检查localStorage是否存在（在服务器端渲染时不存在）
+    if (typeof window !== "undefined" && window.localStorage) {
+      savedTheme = localStorage.getItem("themeNode");
+      savedDisplayNavigation = localStorage.getItem("displayNavigation");
+      savedCurrentModel = localStorage.getItem("currentModel");
+    }
+
     return {
       ...initialState,
       themeNode: (savedTheme as "dark" | "light") || initialState.themeNode,
@@ -41,20 +49,29 @@ export default function AppContextProvider({
   });
 
   useEffect(() => {
-    localStorage.setItem("themeNode", state.themeNode);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("themeNode", state.themeNode);
+    }
   }, [state.themeNode]);
 
   useEffect(() => {
-    localStorage.setItem("displayNavigation", String(state.displayNavigation));
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem(
+        "displayNavigation",
+        String(state.displayNavigation),
+      );
+    }
   }, [state.displayNavigation]);
 
   useEffect(() => {
-    localStorage.setItem("currentModel", state.currentModel);
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("currentModel", state.currentModel);
+    }
   }, [state.currentModel]);
 
   const contextValue = useMemo(() => {
     return { state, dispatch };
-  }, [state, dispatch]);
+  }, [state, dispatch]); //缓存context的值，防止因为父组件重新渲染导致所有子组件不必要的重渲染
   return (
     <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
   );
